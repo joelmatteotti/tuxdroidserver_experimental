@@ -14,9 +14,6 @@ static callback_t callback_funct;
 
 extern void Initialize(void);
 extern void setCallback(callback_t funct);
-extern char *getName(void);
-extern char *getAuthor(void);
-extern char *getVersion(void);
 extern void onButtonPressed(char *button);
 extern void onButtonReleased(char *button);
 extern void onDongleConnected(void);

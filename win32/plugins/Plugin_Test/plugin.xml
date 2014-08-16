@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<win32_file>Plugin.dll</win32_file>
+	<linux_file>Plugin.so</linux_file>
+
+	<name>Plugin de test</name>
+	<author>Joel Matteotti</author>
+	<version>1.0.0</version>
+</plugin>

@@ -4,9 +4,6 @@
 //----------------------
 typedef void (*Initialize_t)(void);
 typedef void (*processesData_t)(char *cmd, void *data); //fonction du plugin
-typedef char *(*getName_t)(void);
-typedef char *(*getVersion_t)(void);
-typedef char *(*getAuthor_t)(void);
 typedef void (*callback_t)(void *data);
 typedef char *(*setCallback_t)(callback_t funct);
 typedef void (*onButtonPressed_t)(char *button);
@@ -18,10 +15,11 @@ typedef void (*onChargerUnPlugged_t)(void);
 
 typedef struct
 {
+	char *name;
+	char *author;
+	char *version;
+	
 	Initialize_t Initialize;
-	getName_t getName;				//nom du plugin
-	getAuthor_t getAuthor;			//nom de l'auteur
-	getVersion_t getVersion;		//version du plugin
 	setCallback_t setCallback;		//définission du callback
 	processesData_t processesData;	//fonction de traitément des données
 	onButtonPressed_t onButtonPressed;
