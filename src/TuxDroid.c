@@ -33,6 +33,8 @@
 #include <TuxTime.h>
 #include <TuxPlugin.h>
 
+extern tuxplugins plugins;
+
 /**
  Initialize TuxDroid and TuxAudio drivers
  @return initialization state
@@ -91,9 +93,10 @@ bool InitializeTuxDroid(void)
 /* Handle events */
 void onRemoteButtonReleased(tux_client client)
 {
+	
 	int i;
-	for(i = 0; i < plg_count; i++)
-		plg[i]->onButtonReleased("remote");
+	for(i = 0; i < plugins->count; i++)
+		plugins->plugins[i]->onButtonReleased("remote");
 		
 	SendMsgToAll(TDSM_REMOTEBUTTON_RELEASE,NULL);
 }
@@ -110,8 +113,8 @@ void onRemoteButtonPressed(tux_client client, char *button)
 	SendMsgToAll(cmd,NULL);
 	
 	int i;
-	for(i = 0; i < plg_count; i++)
-		plg[i]->onButtonPressed(button);
+	for(i = 0; i < plugins->count; i++)
+		plugins->plugins[i]->onButtonPressed(button);
 
 
 	if(cmd != NULL)
@@ -124,8 +127,8 @@ void onRemoteButtonPressed(tux_client client, char *button)
 void onLeftButtonPressed(void)
 {
 	int i;
-	for(i = 0; i < plg_count; i++)
-		plg[i]->onButtonPressed("left");
+	for(i = 0; i < plugins->count; i++)
+		plugins->plugins[i]->onButtonPressed("left");
 
 	SendMsgToAll(TDSM_LEFTBUTTON_CLICKED,NULL);
 }
@@ -133,8 +136,8 @@ void onLeftButtonPressed(void)
 void onLeftButtonReleased(void)
 {
 	int i;
-	for(i = 0; i < plg_count; i++)
-		plg[i]->onButtonReleased("left");
+	for(i = 0; i < plugins->count; i++)
+		plugins->plugins[i]->onButtonReleased("left");
 		
 	SendMsgToAll(TDSM_LEFTBUTTON_RELEASED,NULL);
 }
@@ -142,8 +145,8 @@ void onLeftButtonReleased(void)
 void onRightButtonPressed(void)
 {
 	int i;
-	for(i = 0; i < plg_count; i++)
-		plg[i]->onButtonPressed("right");
+	for(i = 0; i < plugins->count; i++)
+		plugins->plugins[i]->onButtonPressed("right");
 
 	SendMsgToAll(TDSM_RIGHTBUTTON_CLICKED,NULL);
 }
@@ -151,8 +154,8 @@ void onRightButtonPressed(void)
 void onRightButtonReleased(void)
 {
 	int i;
-	for(i = 0; i < plg_count; i++)
-		plg[i]->onButtonReleased("right");
+	for(i = 0; i < plugins->count; i++)
+		plugins->plugins[i]->onButtonReleased("right");
 
 	SendMsgToAll(TDSM_RIGHTBUTTON_RELEASED,NULL);
 }
@@ -160,8 +163,8 @@ void onRightButtonReleased(void)
 void onHeadButtonPressed(void)
 {
 	int i;
-	for(i = 0; i < plg_count; i++)
-		plg[i]->onButtonPressed("head");
+	for(i = 0; i < plugins->count; i++)
+		plugins->plugins[i]->onButtonPressed("head");
 
 	SendMsgToAll(TDSM_HEADBUTTON_CLICKED,NULL);
 }
@@ -169,8 +172,8 @@ void onHeadButtonPressed(void)
 void onHeadButtonReleased(void)
 {
 	int i;
-	for(i = 0; i < plg_count; i++)
-		plg[i]->onButtonReleased("head");
+	for(i = 0; i < plugins->count; i++)
+		plugins->plugins[i]->onButtonReleased("head");
 		
 	SendMsgToAll(TDSM_HEADBUTTON_RELEASED,NULL);
 }
@@ -178,35 +181,38 @@ void onHeadButtonReleased(void)
 void onChargerPlugged(void)
 {
 	int i;
-	for(i = 0; i < plg_count; i++)
-		plg[i]->onChargerPlugged();
+	for(i = 0; i < plugins->count; i++)
+		plugins->plugins[i]->onChargerPlugged();
 		
 	SendMsgToAll(TDSM_CHARGER_PLUGGED,NULL);
 }
 
 void onChargerUnPlugged(void)
 {
+	
 	int i;
-	for(i = 0; i < plg_count; i++)
-		plg[i]->onChargerUnPlugged();
+	for(i = 0; i < plugins->count; i++)
+		plugins->plugins[i]->onChargerUnPlugged();
 		
 	SendMsgToAll(TDSM_CHARGER_UNPLUGGED,NULL);
 }
 
 void onDongleConnected(void)
 {
+	
 	int i;
-	for(i = 0; i < plg_count; i++)
-		plg[i]->onDongleConnected();
-		
+	for(i = 0; i < plugins->count; i++)
+		plugins->plugins[i]->onDongleConnected();
+
 	SendMsgToAll(TDSM_DONGLE_CONNECTED,NULL);
 }
 
 void onDongleDisconnected(void)
 {
+	
 	int i;
-	for(i = 0; i < plg_count; i++)
-		plg[i]->onDongleDisconnected();
+	for(i = 0; i < plugins->count; i++)
+		plugins->plugins[i]->onDongleDisconnected();
 		
 	SendMsgToAll(TDSM_DONGLE_DISCONNECTED,NULL);
 }

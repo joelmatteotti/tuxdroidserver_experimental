@@ -53,13 +53,13 @@ TuxDrvError TuxDriver_Initialize()
 
 
 	#ifdef _WIN32
-	if(!file_exists("libtuxdriver.dll"))
+	if(!file_exists("./libtuxdriver.dll"))
 	{
 		TuxLogger_Error("Driver not found !!",NULL);
 		return E_TUXDRV_DRIVERNOTFOUND;
 	}
 	else
-		DLLHANDLE = LoadLibrary("libtuxdriver.dll");
+		DLLHANDLE = LoadLibrary("./libtuxdriver.dll");
 	#else
 	if(!file_exists("./libtuxdriver.so"))
 	{
@@ -123,6 +123,7 @@ void* TuxDriver_DrvStart(void *data)
 {
 	TuxLogger_Debug("Starting driver",NULL);
 	TuxDrv_Start();
+	TuxLogger_Debug("Driver started",NULL);
 	return 0;
 }
 

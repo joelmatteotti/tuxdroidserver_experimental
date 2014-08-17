@@ -9,8 +9,8 @@ Libs=
 PrivateResource=
 ResourceIncludes=
 MakeIncludes=
-Compiler=-DBUILDING_DLL=1_@@_
-CppCompiler=-DBUILDING_DLL=1_@@_
+Compiler=-DBUILDING_DLL=1 -m32_@@_
+CppCompiler=-DBUILDING_DLL=1 -m32_@@_
 Linker=--no-export-all-symbols --add-stdcall-alias_@@_lib/libpthreadGC2.a_@@_lib/libcharset.lib_@@_lib/libiconv.lib_@@_lib/libxml2.lib_@@_lib/libfmodex.a_@@_lib/libws2_32.a_@@_lib/libcurld_imp.lib_@@_lib/libFLAC_dynamic.lib_@@_libFLAC_dynamic.dll_@@_
 IsCpp=0
 Icon=

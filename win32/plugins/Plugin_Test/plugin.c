@@ -25,7 +25,7 @@ LIBEXPORT void onButtonReleased(char *button)
 
 LIBEXPORT void onDongleConnected(void)
 {
-	//
+	printf("le dongle a été connecté\n"); //exemple d'utilisation basique
 }
 
 LIBEXPORT void onDongleDisconnect(void)
@@ -43,9 +43,10 @@ LIBEXPORT void onChargerUnPlugged(void)
 	//
 }
 
-LIBEXPORT void processesData(char *cmd, void *data)
+/* Fonction appellée dès qu'une commande est reçus par le server */
+LIBEXPORT void processesData(char *cmd, char **data)
 {
-	//
+	printf("commande recu");
 }
 
 

@@ -40,8 +40,11 @@
 #include <TuxUtils.h>
 #include <TuxASR.h>
 #include <TuxLib.h>
+#include <TuxPlugin.h>
 
 extern tuxconfig config;
+extern tuxplugins plugins;
+
 
 int isLocked=0;  /* Is an app prioritary on the others ? */
 
@@ -1039,6 +1042,15 @@ void ParseCommand(tux_client client, char *rawcmd)
 
 	if(!strcmp(strtolower(cmd),"tux_resetpos"))
 		TuxDrv_ResetPositions();
+
+	
+	//---- plugin part 
+	
+	int i;
+	for(i = 0; i < plugins->count; i++)
+		plugins->plugins[i]->processesData(cmd,argv); //envoie de la commande au plugin
+	//----- //plugin part
+
 
 	freeExplode(argv);
 	argv = NULL;

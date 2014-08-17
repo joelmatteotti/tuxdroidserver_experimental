@@ -49,6 +49,7 @@
 #include <TuxPlugin.h>
 
 extern tuxconfig config;
+extern tuxplugins plugins;
 
 char **UniqueIDs;
 int nUniqueIDs = 0;
@@ -562,6 +563,9 @@ LIBEXPORT void *startServer(void *data) {
 }
 
 void basicStart() {
+	
+	TuxLogger_Debug("Création du thread",NULL);
+	
 	if (!server_started) {
 		TuxLogger_Debug(
 				"Creating main thread..",NULL);
@@ -633,11 +637,10 @@ LIBEXPORT void InitServer(void)
 	tprintf("%s %d\n\n", TuxLang_getTranslation("SERVER_LISTENING_PORT"),
 			config->SERVER_PORT);
 			
-		//---------------
-	plg_count = 0;
-	plg_count = loadAllPlugin(plg);
-	printf("\n%d plugin(s) loaded\n\n",plg_count);
-	//---------------
+	//--------------- plugins part ---
+	loadAllPlugin();
+	printf("\n%d plugin(s) loaded\n\n",plugins->count);
+	//------------- //plugins ------------
 
 	tprintf("start - %s\n", TuxLang_getTranslation("START_CMD"));
 	tprintf("stop  - %s\n\n", TuxLang_getTranslation("STOP_CMD"));

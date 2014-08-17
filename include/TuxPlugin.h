@@ -1,9 +1,16 @@
 
+#ifndef __TUXPLUGIN_H__
+#define __TUXPLUGIN_H__
+
+#include <stdio.h>
+#include <stdbool.h>
+#include <libxml/xmlreader.h>
+
 //----------------------
 //Structure d'un plugin:
 //----------------------
 typedef void (*Initialize_t)(void);
-typedef void (*processesData_t)(char *cmd, void *data); //fonction du plugin
+typedef void (*processesData_t)(char *cmd, char **data); //fonction du plugin
 typedef void (*callback_t)(void *data);
 typedef char *(*setCallback_t)(callback_t funct);
 typedef void (*onButtonPressed_t)(char *button);
@@ -34,10 +41,20 @@ typedef Plugin_t *Plugin;
 //--------------------------
 
 
+typedef struct
+{
+	Plugin plugins[100];
+	int count;
+	
+} tuxplugins_t;
+typedef tuxplugins_t *tuxplugins;
 
-//------------
-//déclaration du tableau de plugins
-extern Plugin plg[100]; /* maximum de 100 plugin pour le moment (par la suite il faudra faire une allocation automatique) */
-extern int plg_count;
-//--------
+void loadAllPlugin(void);
+void PluginsCallback(void *data);
+char *getExtension(char *file);
+Plugin loadPlugin(char *file);
+bool TuxPluin_ParseXMLFile(const char *xmlfile); 
+void TuxPluin_processNode(xmlTextReaderPtr reader); 
+
+#endif
 

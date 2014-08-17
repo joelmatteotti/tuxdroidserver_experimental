@@ -27,16 +27,14 @@
 const xmlChar *name, *value;
 char current_element[1024];
 
-
-Plugin plg[100]; /* maximum de 100 plugin pour le moment (par la suite il faudra faire une allocation automatique) */
-int plg_count;
-
+tuxplugins plugins;
 
 char *win32_file;
 char *linux_file;
 char *plugin_name;
 char *plugin_author;
 char *plugin_version;
+
 
 /*
 	<win32_file>Plugin.dll</win32_file>
@@ -136,8 +134,6 @@ bool TuxPluin_ParseXMLFile(const char *xmlfile)
 	return result;
 }
 
-
-
 //fonction de chargement des plugins
 Plugin loadPlugin(char *file)
 {
@@ -155,6 +151,12 @@ Plugin loadPlugin(char *file)
 	plg->setCallback = (setCallback_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setCallback");
 	plg->processesData = (processesData_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"processesData");
 	plg->Initialize = (Initialize_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"Initialize");
+	plg->onButtonPressed = (onButtonPressed_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onButtonPressed");
+	plg->onButtonReleased = (onButtonReleased_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onButtonReleased");
+	plg->onDongleConnected = (onDongleConnected_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onDongleConnected");
+	plg->onDongleDisconnected = (onDongleDisconnected_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onDongleDisconnected");
+	plg->onChargerPlugged = (onChargerPlugged_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onChargerPlugged");
+	plg->onChargerUnPlugged = (onChargerUnPlugged_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onChargerUnPlugged");
 	
 	return plg;
 }
@@ -176,7 +178,7 @@ void PluginsCallback(void *data)
 }
 
 /* charge tous les plugins */
-int loadAllPlugin(Plugin plugins[])
+void loadAllPlugin()
 {
 	DIR *dp;
 	DIR *dp2;
@@ -184,12 +186,15 @@ int loadAllPlugin(Plugin plugins[])
 	struct dirent *ep;
 	struct dirent *ep2;
 	
-	int plg_count=0;
-
 	FILE *fp;
 	char *dir;
 	
 	char *file;
+	
+	
+	plugins = (tuxplugins)malloc(sizeof(tuxplugins_t));
+	
+	plugins->count=0;
 	
 	dp = opendir (PLUGINS_DIRECTORY);
 	if (dp != NULL)
@@ -218,13 +223,6 @@ int loadAllPlugin(Plugin plugins[])
 							{
 								if(TuxPluin_ParseXMLFile(file))
 								{
-									plugins[plg_count] = (Plugin)malloc(sizeof(Plugin_t));
-									
-									//load le plugin depuis les infos
-									plugins[plg_count]->name = plugin_name;
-									plugins[plg_count]->author = plugin_author;
-									plugins[plg_count]->version = plugin_version;
-									
 									#ifdef _WIN32
 									file = (char *)malloc(sizeof(char *)*strlen(win32_file)+strlen(PLUGINS_DIRECTORY)+strlen(ep->d_name));
 									sprintf(file,"%s%s/%s",PLUGINS_DIRECTORY,ep->d_name,win32_file);
@@ -233,18 +231,16 @@ int loadAllPlugin(Plugin plugins[])
 									sprintf(file,"%s%s/%s",PLUGINS_DIRECTORY,ep->d_name,linux_file);
 									#endif
 									
+									plugins->plugins[plugins->count] = loadPlugin(file);
+									plugins->plugins[plugins->count]->name = plugin_name;
+									plugins->plugins[plugins->count]->author = plugin_author;
+									plugins->plugins[plugins->count]->version = plugin_version;
 									
 									free(plugin_name);
 									free(plugin_author);
 									free(plugin_version);
 									
-									
-									plugins[plg_count] = loadPlugin(file);
-									plugins[plg_count]->setCallback(PluginsCallback); // défini le callback pour chacun des plugins 
-									plugins[plg_count]->Initialize();
-									
-									plg_count++;
-								
+									plugins->count++;
 								}
 							}
 						}			
@@ -260,7 +256,6 @@ int loadAllPlugin(Plugin plugins[])
 	else
 		perror ("Couldn't open the directory");
 
-	return plg_count;
 }
 
 
