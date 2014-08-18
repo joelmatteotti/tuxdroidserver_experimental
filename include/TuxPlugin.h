@@ -10,7 +10,7 @@
 //Structure d'un plugin:
 //----------------------
 typedef void (*Initialize_t)(void);
-typedef void (*processesData_t)(char *cmd, char **data); //fonction du plugin
+typedef void (*onCommand_t)(char *cmd, char **data); //fonction du plugin
 typedef void (*callback_t)(void *data);
 typedef char *(*setCallback_t)(callback_t funct);
 
@@ -102,7 +102,7 @@ typedef struct
 	setTux_TTS_t setTux_TTS;
 	
 	
-	processesData_t processesData;	//fonction de traitément des données
+	onCommand_t onCommand;	//fonction de traitément des données
 	onButtonPressed_t onButtonPressed;
 	onButtonReleased_t onButtonReleased;
 	onDongleConnected_t onDongleConnected;

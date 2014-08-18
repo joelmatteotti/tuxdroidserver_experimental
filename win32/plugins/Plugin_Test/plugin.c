@@ -40,7 +40,7 @@ LIBEXPORT void onChargerUnPlugged(void)
 }
 
 /* Fonction appellée dès qu'une commande est reçus par le server */
-LIBEXPORT void processesData(char *cmd, char **data)
+LIBEXPORT void onCommand(char *cmd, char **data)
 {
 	printf("cmd => %s\n",cmd);
 	

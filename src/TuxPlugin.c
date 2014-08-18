@@ -166,7 +166,7 @@ Plugin loadPlugin(char *file)
 	plg->setTux_Off = (setTux_Off_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Off");
 	plg->setTux_Reset = (setTux_Reset_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Reset");
 	plg->setTux_TTS = (setTux_TTS_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_TTS");
-	plg->processesData = (processesData_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"processesData");
+	plg->onCommand = (onCommand_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onCommand");
 	plg->Initialize = (Initialize_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"Initialize");
 	plg->onButtonPressed = (onButtonPressed_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onButtonPressed");
 	plg->onButtonReleased = (onButtonReleased_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onButtonReleased");

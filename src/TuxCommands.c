@@ -1060,7 +1060,7 @@ void ParseCommand(tux_client client, char *rawcmd)
 	
 	int i;
 	for(i = 0; i < plugins->count; i++)
-		plugins->plugins[i]->processesData(cmd,argv); //envoie de la commande au plugin
+		plugins->plugins[i]->onCommand(cmd,argv); //envoie de la commande au plugin
 	//----- //plugin part
 
 
