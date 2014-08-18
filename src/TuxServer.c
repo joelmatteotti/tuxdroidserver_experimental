@@ -586,6 +586,7 @@ void basicStart() {
 
 LIBEXPORT void InitServer(void)
 {
+	
 	TuxConfig_loadConfig();
 	
 	#ifndef _WIN32

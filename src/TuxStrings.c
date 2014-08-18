@@ -162,17 +162,33 @@ char *strtoupper(char *string)
 	if (string == NULL)
 		return NULL;
 
+	/* L'allocation suivante est nécessaire pour éviter des crash sur les const char * */
+	/* comme par exemple:
+	char *test = "chaine";
+	test = strtoupper(test);
+	*/
+	char *string = (char *)malloc(sizeof(char)*strlen(_string));
+	sprintf(string,"%s",_string);
+
 	string = apply_to_all_chars(toupper, string);
 
 	return string;
 }
 
 /* Convert a string to lowercase */
-char *strtolower(char *string)
+char *strtolower(char *_string)
 {
 	if (string == NULL)
 		return NULL;
 
+	/* L'allocation suivante est nécessaire pour éviter des crash sur les const char * */
+	/* comme par exemple:
+	char *test = "chaine";
+	test = strtolower(test);
+	*/
+	char *string = (char *)malloc(sizeof(char)*strlen(_string));
+	sprintf(string,"%s",_string);
+	
 	string = apply_to_all_chars(tolower, string);
 
 	return string;

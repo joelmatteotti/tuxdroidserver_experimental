@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = plugin.o
-LINKOBJ  = plugin.o
+OBJ      = plugin.o ../../../src/TuxStrings.o
+LINKOBJ  = plugin.o ../../../src/TuxStrings.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/lib" -static-libstdc++ -static-libgcc --no-export-all-symbols --add-stdcall-alias libTuxDroidServer.a
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"../../../include" -I"../../../include/win32" -I"../../../include/win32/pthread" -I"../../../include/win32/iconv"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include/c++" -I"../../../include" -I"../../../include/win32" -I"../../../include/win32/pthread" -I"../../../include/win32/iconv"
@@ -30,3 +30,6 @@ $(BIN): $(LINKOBJ)
 
 plugin.o: plugin.c
 	$(CC) -c plugin.c -o plugin.o $(CFLAGS)
+
+../../../src/TuxStrings.o: ../../../src/TuxStrings.c
+	$(CC) -c ../../../src/TuxStrings.c -o ../../../src/TuxStrings.o $(CFLAGS)

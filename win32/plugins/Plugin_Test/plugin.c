@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "plugin.h"
+#include "../../../include/TuxStrings.h"
 
 /* Fonction appellée lors de l'apuie sur un bouton */
 /* button contient le nom du bouton pressé */
@@ -42,15 +43,14 @@ LIBEXPORT void onChargerUnPlugged(void)
 /* Fonction appellée dès qu'une commande est reçus par le server */
 LIBEXPORT void onCommand(char *cmd, char **data)
 {
-	printf("cmd => %s\n",cmd);
-	
-	if(!strcmp(cmd,"tux_open"))
+	if(!strcmp(strtolower(cmd),"tux_open"))
 	{
 		printf("open mouth");
 		if(data != NULL)
 		{
 			if(data[0] != NULL)
 			{
+				
 				char **phrases = (char **)malloc(sizeof(char *));
 				phrases[0] = (char *)malloc(sizeof(char)*28);
 				sprintf(phrases[0],"\"Commande reçue je m'exécute\"");
@@ -71,7 +71,10 @@ LIBEXPORT void onCommand(char *cmd, char **data)
 				sprintf(phrases[5],"0");
 				
 				Tux_TTS(phrases,6);
-
+				
+			
+				//Autre exemple de commande:
+				Tux_Flippers("Up",NULL);
 			}
 			else
 				printf("data[0] est null");

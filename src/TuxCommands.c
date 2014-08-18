@@ -220,8 +220,6 @@ LIBEXPORT void Tux_Open(char *motor)
 
 LIBEXPORT void Tux_Close(char *motor)
 {
-	printf("close called => %s\n",motor);
-	
 	if(!strcmp(strtolower(motor),"eyes"))
 		Tux_Close_Eyes();
 	else if(!strcmp(strtolower(motor),"mouth"))
@@ -295,14 +293,10 @@ LIBEXPORT void Tux_Micro(char *action, char *file)
 
 LIBEXPORT void Tux_Flippers(char *action, char *count)
 {
-	printf("Tux_Flippers() action => %s / count => %s\n",action,count);
+	printf("Tux_Flippers() => %s\n",action);
+	
 	if(!strcmp(strtolower(action),"up"))
-	{
-		printf("On fait monté les ailes !\n");
-		TuxLogger_Debug("Call pour monter les ailes",NULL);
-		
 		Tux_Flippers_Up();
-	}
 	if(!strcmp(strtolower(action),"down"))
 		Tux_Flippers_Down();
 	if(!strcmp(strtolower(action),"updown"))

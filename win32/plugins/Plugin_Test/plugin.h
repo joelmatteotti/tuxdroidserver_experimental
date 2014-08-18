@@ -117,5 +117,7 @@ LIBEXPORT void setTux_TTS(Tux_TTS_t funct){	Tux_TTS = funct;}
 LIBEXPORT void setCallback(callback_t funct){	callback_funct = funct;}
 void SendMsgToAll(char *msg) { _SendMsgToAll(msg,NULL); }
 
+
+
 #endif
 
