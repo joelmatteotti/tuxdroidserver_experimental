@@ -12,7 +12,8 @@
 
 #include <libxml/xmlreader.h>
 #include <stdbool.h>
-
+#include <TuxCommands.h>
+#include <TuxServer.h>
 
 #ifdef _WIN32
 	#include <windows.h> /* DLL management */
@@ -147,8 +148,24 @@ Plugin loadPlugin(char *file)
 	
 	Plugin plg = (Plugin)malloc(sizeof(Plugin_t));
 	
-	
+	plg->setIsServerStarted = (setIsServerStarted_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setIsServerStarted");
 	plg->setCallback = (setCallback_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setCallback");
+	plg->setTux_Open = (setTux_Open_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Open");
+	plg->setTux_Close = (setTux_Close_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Close");
+	plg->setTux_OpenClose = (setTux_OpenClose_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_OpenClose");
+	plg->setTux_Leds_OnOff = (setTux_Leds_OnOff_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Leds_OnOff");
+	plg->setTux_Leds_Blink = (setTux_Leds_Blink_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Leds_Blink");
+	plg->setTux_Leds_Pulse = (setTux_Leds_Pulse_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Leds_Pulse");
+	plg->setTux_Micro = (setTux_Micro_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Micro");
+	plg->setTux_Audio = (setTux_Audio_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Audio");
+	plg->setTux_Flippers = (setTux_Flippers_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Flippers");
+	plg->setTux_Rotate = (setTux_Rotate_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Rotate");
+	plg->setTux_Flash = (setTux_Flash_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Flash");
+	plg->setTux_Sleep = (setTux_Sleep_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Sleep");
+	plg->setTux_Wakeup = (setTux_Wakeup_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Wakeup");
+	plg->setTux_Off = (setTux_Off_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Off");
+	plg->setTux_Reset = (setTux_Reset_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Reset");
+	plg->setTux_TTS = (setTux_TTS_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_TTS");
 	plg->processesData = (processesData_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"processesData");
 	plg->Initialize = (Initialize_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"Initialize");
 	plg->onButtonPressed = (onButtonPressed_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onButtonPressed");
@@ -235,6 +252,32 @@ void loadAllPlugin()
 									plugins->plugins[plugins->count]->name = plugin_name;
 									plugins->plugins[plugins->count]->author = plugin_author;
 									plugins->plugins[plugins->count]->version = plugin_version;
+									
+									
+									plugins->plugins[plugins->count]->setIsServerStarted(isServerStarted);
+									
+									plugins->plugins[plugins->count]->setTux_Open(Tux_Open);
+									plugins->plugins[plugins->count]->setTux_Close(Tux_Close);
+									plugins->plugins[plugins->count]->setTux_OpenClose(Tux_OpenClose);
+									plugins->plugins[plugins->count]->setTux_Leds_OnOff(Tux_Leds_OnOff);
+									plugins->plugins[plugins->count]->setTux_Leds_Blink(Tux_Leds_Blink);
+									plugins->plugins[plugins->count]->setTux_Leds_Pulse(Tux_Leds_Pulse);
+									plugins->plugins[plugins->count]->setTux_Micro(Tux_Micro);
+									plugins->plugins[plugins->count]->setTux_Audio(Tux_Audio);
+									plugins->plugins[plugins->count]->setTux_Flippers(Tux_Flippers);
+									plugins->plugins[plugins->count]->setTux_Rotate(Tux_Rotate);
+									plugins->plugins[plugins->count]->setTux_Flash(Tux_Flash);
+									plugins->plugins[plugins->count]->setTux_Sleep(Tux_Sleep);
+									plugins->plugins[plugins->count]->setTux_Wakeup(Tux_Wakeup);
+									plugins->plugins[plugins->count]->setTux_Off(Tux_Off);
+									plugins->plugins[plugins->count]->setTux_Reset(Tux_Reset);
+									plugins->plugins[plugins->count]->setTux_TTS(Tux_TTS);
+									
+									
+									plugins->plugins[plugins->count]->setCallback(PluginsCallback);
+									
+									
+									plugins->plugins[plugins->count]->Initialize();
 									
 									free(plugin_name);
 									free(plugin_author);

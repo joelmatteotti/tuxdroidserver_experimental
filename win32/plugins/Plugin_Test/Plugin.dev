@@ -4,14 +4,14 @@ Name=Plugin
 Type=3
 Ver=2
 ObjFiles=
-Includes=
+Includes=..\..\..\include;..\..\..\include\win32;..\..\..\include\win32\pthread;..\..\..\include\win32\xml;..\..\..\include\win32\iconv
 Libs=
 PrivateResource=
 ResourceIncludes=
 MakeIncludes=
-Compiler=-DBUILDING_DLL=1
-CppCompiler=-DBUILDING_DLL=1
-Linker=--no-export-all-symbols --add-stdcall-alias
+Compiler=-DBUILDING_DLL=1_@@_
+CppCompiler=-DBUILDING_DLL=1_@@_
+Linker=--no-export-all-symbols --add-stdcall-alias_@@_libTuxDroidServer.a_@@_
 IsCpp=0
 Icon=
 ExeOutput=
@@ -19,7 +19,7 @@ ObjectOutput=
 LogOutput=
 LogOutputEnabled=0
 OverrideOutput=0
-OverrideOutputName=
+OverrideOutputName=Plugin.dll
 HostApplication=
 UseCustomMakefile=0
 CustomMakefile=
@@ -39,14 +39,14 @@ Build=0
 LanguageID=1033
 CharsetID=1252
 CompanyName=
-FileVersion=
+FileVersion=1.0.0.0
 FileDescription=Developed using the Dev-C++ IDE
 InternalName=
 LegalCopyright=
 LegalTrademarks=
 OriginalFilename=
 ProductName=
-ProductVersion=
+ProductVersion=1.0.0.0
 AutoIncBuildNr=0
 SyncProduct=1
 

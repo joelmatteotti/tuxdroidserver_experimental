@@ -220,6 +220,8 @@ LIBEXPORT void Tux_Open(char *motor)
 
 LIBEXPORT void Tux_Close(char *motor)
 {
+	printf("close called => %s\n",motor);
+	
 	if(!strcmp(strtolower(motor),"eyes"))
 		Tux_Close_Eyes();
 	else if(!strcmp(strtolower(motor),"mouth"))
@@ -293,8 +295,14 @@ LIBEXPORT void Tux_Micro(char *action, char *file)
 
 LIBEXPORT void Tux_Flippers(char *action, char *count)
 {
+	printf("Tux_Flippers() action => %s / count => %s\n",action,count);
 	if(!strcmp(strtolower(action),"up"))
+	{
+		printf("On fait monté les ailes !\n");
+		TuxLogger_Debug("Call pour monter les ailes",NULL);
+		
 		Tux_Flippers_Up();
+	}
 	if(!strcmp(strtolower(action),"down"))
 		Tux_Flippers_Down();
 	if(!strcmp(strtolower(action),"updown"))
@@ -519,6 +527,8 @@ LIBEXPORT void Tux_TTS(char **argv, int argc)
 	}
 
 	TuxLogger_Debug("After for loop",NULL);
+	
+	TuxLogger_Debug("ARGS => %s",args);
 
 	char **sp = explode(args,'"');
 
@@ -529,6 +539,8 @@ LIBEXPORT void Tux_TTS(char **argv, int argc)
 		return;
 
 	char *str = duplicate_string(sp[1]);
+
+	TuxLogger_Debug("STR => %s",str);
 
 	//sp[2] => params
 
