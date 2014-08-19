@@ -1,3 +1,24 @@
+/* =============== GPL HEADER =====================
+ * TuxPlugin.c is part of TuxDroidServer
+ * Copyleft (C) 2012 - Joel Matteotti <joel _DOT_ matteotti _AT_ free _DOT_ fr>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
+ *
+ * ====================================================
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include <malloc.h>
@@ -166,6 +187,7 @@ Plugin loadPlugin(char *file)
 	plg->setTux_Off = (setTux_Off_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Off");
 	plg->setTux_Reset = (setTux_Reset_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_Reset");
 	plg->setTux_TTS = (setTux_TTS_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_TTS");
+	plg->setTux_State = (setTux_State_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setTux_State");
 	plg->onCommand = (onCommand_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onCommand");
 	plg->Initialize = (Initialize_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"Initialize");
 	plg->onButtonPressed = (onButtonPressed_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onButtonPressed");
@@ -273,8 +295,14 @@ void loadAllPlugin()
 										plugins->plugins[plugins->count]->setTux_Off(Tux_Off);
 										plugins->plugins[plugins->count]->setTux_Reset(Tux_Reset);
 										plugins->plugins[plugins->count]->setTux_TTS(Tux_TTS);
+										plugins->plugins[plugins->count]->setTux_State(pTux_State);
 										plugins->plugins[plugins->count]->setCallback(PluginsCallback);
-										plugins->plugins[plugins->count]->Initialize();
+										
+										if(plugins->plugins[plugins->count]->Initialize != NULL)
+											plugins->plugins[plugins->count]->Initialize();
+										else
+											TuxLogger_Error("Plugin \"%s\" have not Initialize() method !!",plugins->plugins[plugins->count]->name);
+									
 										plugins->count++;
 									}
 									else

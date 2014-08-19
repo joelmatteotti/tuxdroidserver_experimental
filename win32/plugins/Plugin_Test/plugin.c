@@ -41,14 +41,13 @@ LIBEXPORT void onChargerUnPlugged(void)
 }
 
 /* Fonction appellée dès qu'une commande est reçus par le server */
-LIBEXPORT void onCommand(char *cmd, char **data)
+LIBEXPORT void onCommand(char *cmd, char **parameters)
 {
 	if(!strcmp(strtolower(cmd),"tux_open"))
 	{
-		printf("open mouth");
-		if(data != NULL)
+		if(parameters != NULL)
 		{
-			if(data[0] != NULL)
+			if(parameters[0] != NULL)
 			{
 				
 				char **phrases = (char **)malloc(sizeof(char *));
@@ -76,19 +75,13 @@ LIBEXPORT void onCommand(char *cmd, char **data)
 				//Autre exemple de commande:
 				Tux_Flippers("Up",NULL);
 			}
-			else
-				printf("data[0] est null");
 		}
-		else
-			printf("data est null");
 	}
 }
 
 /* Fonction appeller au chargement du plugin (c'est l'equivalent du main() pour le plugin) */
 LIBEXPORT void Initialize(void)
 {
-//	importFunctions(); //à ne pas oublier :)
-	
 	//A ce stade le server n'est pas lancé il faut donc éviter d'envoyer des messages !!
 	printf("Plugin de test prêt !\n");
 }

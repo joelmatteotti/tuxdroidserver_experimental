@@ -1,3 +1,25 @@
+/* =============== GPL HEADER =====================
+ * plugin.h is part of TuxDroidServer's Plugin API
+ * Copyleft (C) 2014 - Joel Matteotti <joel _DOT_ matteotti _AT_ free _DOT_ fr>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
+ *
+ * ====================================================
+*/
+
+
 #ifndef __PLUGIN_H__
 #define __PLUGIN_H__
 
@@ -88,6 +110,10 @@ typedef void(*Tux_TTS_t)(char **argv,int argc);
 static Tux_TTS_t Tux_TTS;
 extern void setTux_TTS(Tux_TTS_t funct);
 
+typedef char *(*Tux_State_t)(char *sw_id);
+static Tux_State_t Tux_State;
+extern void setTux_State(Tux_State_t funct);
+
 /* Fake Client structure */
 typedef struct {} tux_client_t;
 typedef tux_client_t *tux_client;
@@ -114,6 +140,7 @@ LIBEXPORT void setTux_Wakeup(Tux_Wakeup_t funct){	Tux_Wakeup = funct;}
 LIBEXPORT void setTux_Off(Tux_Off_t funct){	Tux_Off = funct;}
 LIBEXPORT void setTux_Reset(Tux_Reset_t funct){	Tux_Reset = funct;}
 LIBEXPORT void setTux_TTS(Tux_TTS_t funct){	Tux_TTS = funct;}
+LIBEXPORT void setTux_State(Tux_State_t funct) { Tux_State = funct; }
 LIBEXPORT void setCallback(callback_t funct){	callback_funct = funct;}
 void SendMsgToAll(char *msg) { _SendMsgToAll(msg,NULL); }
 

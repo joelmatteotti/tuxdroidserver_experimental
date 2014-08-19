@@ -49,6 +49,7 @@ extern void Tux_Rotate(char *action, char *count);
 extern void Tux_Flash(char *sound, char *amplitude);
 extern void Tux_Audio(char *action, char *rawcmd);
 void Tux_State(tux_client client, char *sw_id);
+extern char *pTux_State(char *sw_id);
 extern void Tux_Sleep(void);
 extern void Tux_Wakeup(void);
 void Tux_Priority(tux_client client, char *action);
@@ -60,5 +61,6 @@ extern void Tux_TTS(char **argv, int argc);
 
 void ParseCommand(tux_client client, char *rawcmd);
 void *syncMouthMovements(void *data);
+
 
 #endif

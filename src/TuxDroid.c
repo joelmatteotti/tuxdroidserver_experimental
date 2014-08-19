@@ -96,8 +96,11 @@ void onRemoteButtonReleased(tux_client client)
 	
 	int i;
 	for(i = 0; i < plugins->count; i++)
-		plugins->plugins[i]->onButtonReleased("remote");
-		
+	{
+		if(plugins->plugins[i]->onButtonReleased != NULL)
+			plugins->plugins[i]->onButtonReleased("remote");
+	}
+	
 	SendMsgToAll(TDSM_REMOTEBUTTON_RELEASE,NULL);
 }
 
@@ -114,8 +117,10 @@ void onRemoteButtonPressed(tux_client client, char *button)
 	
 	int i;
 	for(i = 0; i < plugins->count; i++)
-		plugins->plugins[i]->onButtonPressed(button);
-
+	{
+		if(plugins->plugins[i]->onButtonPressed != NULL)
+			plugins->plugins[i]->onButtonPressed(button);
+	}
 
 	if(cmd != NULL)
 	{
@@ -128,7 +133,10 @@ void onLeftButtonPressed(void)
 {
 	int i;
 	for(i = 0; i < plugins->count; i++)
-		plugins->plugins[i]->onButtonPressed("left");
+	{
+		if(plugins->plugins[i]->onButtonPressed != NULL)
+			plugins->plugins[i]->onButtonPressed("left");
+	}
 
 	SendMsgToAll(TDSM_LEFTBUTTON_CLICKED,NULL);
 }
@@ -146,7 +154,10 @@ void onRightButtonPressed(void)
 {
 	int i;
 	for(i = 0; i < plugins->count; i++)
-		plugins->plugins[i]->onButtonPressed("right");
+	{
+		if(plugins->plugins[i]->onButtonPressed != NULL)
+			plugins->plugins[i]->onButtonPressed("right");
+	}
 
 	SendMsgToAll(TDSM_RIGHTBUTTON_CLICKED,NULL);
 }
@@ -155,7 +166,10 @@ void onRightButtonReleased(void)
 {
 	int i;
 	for(i = 0; i < plugins->count; i++)
-		plugins->plugins[i]->onButtonReleased("right");
+	{
+		if(plugins->plugins[i]->onButtonReleased != NULL)
+			plugins->plugins[i]->onButtonReleased("right");
+	}
 
 	SendMsgToAll(TDSM_RIGHTBUTTON_RELEASED,NULL);
 }
@@ -164,8 +178,11 @@ void onHeadButtonPressed(void)
 {
 	int i;
 	for(i = 0; i < plugins->count; i++)
-		plugins->plugins[i]->onButtonPressed("head");
-
+	{
+		if(plugins->plugins[i]->onButtonPressed != NULL)
+			plugins->plugins[i]->onButtonPressed("head");
+	}
+	
 	SendMsgToAll(TDSM_HEADBUTTON_CLICKED,NULL);
 }
 
@@ -173,8 +190,11 @@ void onHeadButtonReleased(void)
 {
 	int i;
 	for(i = 0; i < plugins->count; i++)
-		plugins->plugins[i]->onButtonReleased("head");
-		
+	{
+		if(plugins->plugins[i]->onButtonReleased != NULL)
+			plugins->plugins[i]->onButtonReleased("head");
+	}
+
 	SendMsgToAll(TDSM_HEADBUTTON_RELEASED,NULL);
 }
 
@@ -182,8 +202,11 @@ void onChargerPlugged(void)
 {
 	int i;
 	for(i = 0; i < plugins->count; i++)
-		plugins->plugins[i]->onChargerPlugged();
-		
+	{
+		if(plugins->plugins[i]->onChargerPlugged != NULL)
+			plugins->plugins[i]->onChargerPlugged();
+	}
+	
 	SendMsgToAll(TDSM_CHARGER_PLUGGED,NULL);
 }
 
@@ -192,8 +215,11 @@ void onChargerUnPlugged(void)
 	
 	int i;
 	for(i = 0; i < plugins->count; i++)
-		plugins->plugins[i]->onChargerUnPlugged();
-		
+	{
+		if(plugins->plugins[i]->onChargerUnPlugged != NULL)
+			plugins->plugins[i]->onChargerUnPlugged();
+	}
+
 	SendMsgToAll(TDSM_CHARGER_UNPLUGGED,NULL);
 }
 
@@ -202,8 +228,11 @@ void onDongleConnected(void)
 	
 	int i;
 	for(i = 0; i < plugins->count; i++)
-		plugins->plugins[i]->onDongleConnected();
-
+	{
+		if(plugins->plugins[i]->onDongleConnected != NULL)
+			plugins->plugins[i]->onDongleConnected();
+	}
+	
 	SendMsgToAll(TDSM_DONGLE_CONNECTED,NULL);
 }
 
@@ -212,8 +241,11 @@ void onDongleDisconnected(void)
 	
 	int i;
 	for(i = 0; i < plugins->count; i++)
-		plugins->plugins[i]->onDongleDisconnected();
-		
+	{
+		if(plugins->plugins[i]->onDongleDisconnected != NULL)
+			plugins->plugins[i]->onDongleDisconnected();
+	}
+
 	SendMsgToAll(TDSM_DONGLE_DISCONNECTED,NULL);
 }
 

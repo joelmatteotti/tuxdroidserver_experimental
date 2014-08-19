@@ -367,6 +367,24 @@ LIBEXPORT void Tux_Audio(char *action, char *rawcmd)
 	}
 }
 
+/* Tux_State for plugins */
+LIBEXPORT char *pTux_State(char *sw_id)
+{
+	char valeur[256];
+
+	int sn = getStateNumber(sw_id);
+
+	if(sn > -1)
+		TuxDrv_GetStatusValue(sn,valeur);
+	else
+		TuxDrv_GetStatusValue(atoi(sw_id),valeur);
+
+	char *res = (char *)malloc(sizeof(char)*strlen(valeur));
+	sprintf(res,"%s",(char *)valeur);
+	
+	return res;
+}
+
 void Tux_State(tux_client client, char *sw_id)
 {
 	char valeur[256];
@@ -1051,10 +1069,12 @@ void ParseCommand(tux_client client, char *rawcmd)
 
 	
 	//---- plugin part 
-	
 	int i;
 	for(i = 0; i < plugins->count; i++)
-		plugins->plugins[i]->onCommand(cmd,argv); //envoie de la commande au plugin
+	{
+		if(plugins->plugins[i]->onCommand != NULL)
+			plugins->plugins[i]->onCommand(cmd,argv); //envoie de la commande au plugin
+	}
 	//----- //plugin part
 
 

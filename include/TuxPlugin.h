@@ -1,3 +1,23 @@
+/* =============== GPL HEADER =====================
+ * TuxPlugin.h is part of TuxDroidServer
+ * Copyleft (C) 2014 - Joel Matteotti <joel _DOT_ matteotti _AT_ free _DOT_ fr>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
+ *
+ * ====================================================
+*/
 
 #ifndef __TUXPLUGIN_H__
 #define __TUXPLUGIN_H__
@@ -65,6 +85,9 @@ typedef void (*setTux_Off_t)(Tux_Off_t);
 typedef void (*Tux_Reset_t)(void);
 typedef void (*setTux_Reset_t)(Tux_Reset_t);
 
+typedef char *(*Tux_State_t)(char *sw_id);
+typedef void (*setTux_State_t)(Tux_State_t);
+
 
 typedef void (*onButtonPressed_t)(char *button);
 typedef void (*onButtonReleased_t)(char *button);
@@ -100,6 +123,7 @@ typedef struct
 	setTux_Off_t setTux_Off;
 	setTux_Reset_t setTux_Reset;
 	setTux_TTS_t setTux_TTS;
+	setTux_State_t setTux_State;
 	
 	
 	onCommand_t onCommand;	//fonction de traitément des données
