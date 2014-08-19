@@ -157,9 +157,9 @@ char *apply_to_all_chars(int (function)(int), char *string)
 }
 
 /* Convert a string to uppercase */
-char *strtoupper(char *string)
+char *strtoupper(char *_string)
 {
-	if (string == NULL)
+	if (_string == NULL)
 		return NULL;
 
 	/* L'allocation suivante est nécessaire pour éviter des crash sur les const char * */
@@ -178,7 +178,7 @@ char *strtoupper(char *string)
 /* Convert a string to lowercase */
 char *strtolower(char *_string)
 {
-	if (string == NULL)
+	if (_string == NULL)
 		return NULL;
 
 	/* L'allocation suivante est nécessaire pour éviter des crash sur les const char * */

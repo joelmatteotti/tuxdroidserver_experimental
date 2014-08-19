@@ -117,8 +117,9 @@ typedef Plugin_t *Plugin;
 
 typedef struct
 {
-	Plugin plugins[100];
+	Plugin *plugins;
 	int count;
+	int error;
 	
 } tuxplugins_t;
 typedef tuxplugins_t *tuxplugins;

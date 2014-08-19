@@ -212,6 +212,7 @@ void loadAllPlugin()
 	plugins = (tuxplugins)malloc(sizeof(tuxplugins_t));
 	
 	plugins->count=0;
+	plugins->error=0;
 	
 	dp = opendir (PLUGINS_DIRECTORY);
 	if (dp != NULL)
@@ -248,42 +249,44 @@ void loadAllPlugin()
 									sprintf(file,"%s%s/%s",PLUGINS_DIRECTORY,ep->d_name,linux_file);
 									#endif
 									
-									plugins->plugins[plugins->count] = loadPlugin(file);
-									plugins->plugins[plugins->count]->name = plugin_name;
-									plugins->plugins[plugins->count]->author = plugin_author;
-									plugins->plugins[plugins->count]->version = plugin_version;
-									
-									
-									plugins->plugins[plugins->count]->setIsServerStarted(isServerStarted);
-									
-									plugins->plugins[plugins->count]->setTux_Open(Tux_Open);
-									plugins->plugins[plugins->count]->setTux_Close(Tux_Close);
-									plugins->plugins[plugins->count]->setTux_OpenClose(Tux_OpenClose);
-									plugins->plugins[plugins->count]->setTux_Leds_OnOff(Tux_Leds_OnOff);
-									plugins->plugins[plugins->count]->setTux_Leds_Blink(Tux_Leds_Blink);
-									plugins->plugins[plugins->count]->setTux_Leds_Pulse(Tux_Leds_Pulse);
-									plugins->plugins[plugins->count]->setTux_Micro(Tux_Micro);
-									plugins->plugins[plugins->count]->setTux_Audio(Tux_Audio);
-									plugins->plugins[plugins->count]->setTux_Flippers(Tux_Flippers);
-									plugins->plugins[plugins->count]->setTux_Rotate(Tux_Rotate);
-									plugins->plugins[plugins->count]->setTux_Flash(Tux_Flash);
-									plugins->plugins[plugins->count]->setTux_Sleep(Tux_Sleep);
-									plugins->plugins[plugins->count]->setTux_Wakeup(Tux_Wakeup);
-									plugins->plugins[plugins->count]->setTux_Off(Tux_Off);
-									plugins->plugins[plugins->count]->setTux_Reset(Tux_Reset);
-									plugins->plugins[plugins->count]->setTux_TTS(Tux_TTS);
-									
-									
-									plugins->plugins[plugins->count]->setCallback(PluginsCallback);
-									
-									
-									plugins->plugins[plugins->count]->Initialize();
-									
+									if(file_exists(file))
+									{
+										plugins->plugins = (Plugin *)realloc(plugins->plugins, sizeof(Plugin_t)*plugins->count+1);
+										plugins->plugins[plugins->count] = loadPlugin(file);
+										plugins->plugins[plugins->count]->name = plugin_name;
+										plugins->plugins[plugins->count]->author = plugin_author;
+										plugins->plugins[plugins->count]->version = plugin_version;
+										plugins->plugins[plugins->count]->setIsServerStarted(isServerStarted);
+										plugins->plugins[plugins->count]->setTux_Open(Tux_Open);
+										plugins->plugins[plugins->count]->setTux_Close(Tux_Close);
+										plugins->plugins[plugins->count]->setTux_OpenClose(Tux_OpenClose);
+										plugins->plugins[plugins->count]->setTux_Leds_OnOff(Tux_Leds_OnOff);
+										plugins->plugins[plugins->count]->setTux_Leds_Blink(Tux_Leds_Blink);
+										plugins->plugins[plugins->count]->setTux_Leds_Pulse(Tux_Leds_Pulse);
+										plugins->plugins[plugins->count]->setTux_Micro(Tux_Micro);
+										plugins->plugins[plugins->count]->setTux_Audio(Tux_Audio);
+										plugins->plugins[plugins->count]->setTux_Flippers(Tux_Flippers);
+										plugins->plugins[plugins->count]->setTux_Rotate(Tux_Rotate);
+										plugins->plugins[plugins->count]->setTux_Flash(Tux_Flash);
+										plugins->plugins[plugins->count]->setTux_Sleep(Tux_Sleep);
+										plugins->plugins[plugins->count]->setTux_Wakeup(Tux_Wakeup);
+										plugins->plugins[plugins->count]->setTux_Off(Tux_Off);
+										plugins->plugins[plugins->count]->setTux_Reset(Tux_Reset);
+										plugins->plugins[plugins->count]->setTux_TTS(Tux_TTS);
+										plugins->plugins[plugins->count]->setCallback(PluginsCallback);
+										plugins->plugins[plugins->count]->Initialize();
+										plugins->count++;
+									}
+									else
+									{
+										plugins->error++;
+										TuxLogger_Error("Unable to load plugin \"%s\"",plugin_name);
+									}
+								
 									free(plugin_name);
 									free(plugin_author);
 									free(plugin_version);
 									
-									plugins->count++;
 								}
 							}
 						}			

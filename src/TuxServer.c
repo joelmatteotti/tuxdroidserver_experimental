@@ -586,7 +586,6 @@ void basicStart() {
 
 LIBEXPORT void InitServer(void)
 {
-	
 	TuxConfig_loadConfig();
 	
 	#ifndef _WIN32
@@ -640,7 +639,11 @@ LIBEXPORT void InitServer(void)
 			
 	//--------------- plugins part ---
 	loadAllPlugin();
-	printf("\n%d plugin(s) loaded\n\n",plugins->count);
+	printf("\n%d plugin(s) loaded\n",plugins->count);
+	if(plugins->error > 0)
+		printf(" (%d plugin(s) on loading error)\n\n",plugins->error);
+	else
+		printf("\n\n");
 	//------------- //plugins ------------
 
 	tprintf("start - %s\n", TuxLang_getTranslation("START_CMD"));
