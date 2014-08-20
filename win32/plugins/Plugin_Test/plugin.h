@@ -37,6 +37,7 @@ extern void onDongleDisconnected(void);
 extern void onChargerPlugged(void);
 extern void onChargerUnPlugged(void);
 
+
 typedef void(*callback_t)(void *data);
 static callback_t callback_funct;
 extern void Initialize(void);
@@ -114,15 +115,25 @@ typedef char *(*Tux_State_t)(char *sw_id);
 static Tux_State_t Tux_State;
 extern void setTux_State(Tux_State_t funct);
 
-/* Fake Client structure */
-typedef struct {} tux_client_t;
+/* Client structure */
+typedef struct
+{
+	int id;
+	char *username;  /* user name */
+	char *uKey;  /* user key */
+	char *pID;  /* client application's ID */
+
+	#ifdef _WIN32
+	SOCKET sock;
+	#else
+	int sock;
+	#endif
+} tux_client_t;
 typedef tux_client_t *tux_client;
 
-typedef void (*_SendMsgToAll_t)(char *msg, tux_client except_client);
-static _SendMsgToAll_t _SendMsgToAll;
-extern void setSendMsgToAll(_SendMsgToAll_t funct);
+extern void addClient(tux_client client);
+extern void delClient(tux_client client);
 
-LIBEXPORT void setSendMsgToAll(_SendMsgToAll_t funct) { _SendMsgToAll = funct; }
 LIBEXPORT void setIsServerStarted(isServerStarted_t funct) { isServerStarted = funct; }
 LIBEXPORT void setTux_Open(Tux_Open_t funct) { Tux_Open = funct; }
 LIBEXPORT void setTux_Close(Tux_Close_t funct) {Tux_Close = funct;}
@@ -142,7 +153,6 @@ LIBEXPORT void setTux_Reset(Tux_Reset_t funct){	Tux_Reset = funct;}
 LIBEXPORT void setTux_TTS(Tux_TTS_t funct){	Tux_TTS = funct;}
 LIBEXPORT void setTux_State(Tux_State_t funct) { Tux_State = funct; }
 LIBEXPORT void setCallback(callback_t funct){	callback_funct = funct;}
-void SendMsgToAll(char *msg) { _SendMsgToAll(msg,NULL); }
 
 
 

@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <libxml/xmlreader.h>
+#include <TuxTypes.h>
 
 //----------------------
 //Structure d'un plugin:
@@ -96,6 +97,9 @@ typedef void (*onDongleDisconnected_t)(void);
 typedef void (*onChargerPlugged_t)(void);
 typedef void (*onChargerUnPlugged_t)(void);
 
+typedef void (*addClient_t)(tux_client client);
+typedef void (*delClient_t)(tux_client client);
+
 typedef struct
 {
 	char *name;
@@ -125,8 +129,10 @@ typedef struct
 	setTux_TTS_t setTux_TTS;
 	setTux_State_t setTux_State;
 	
+	addClient_t addClient;
+	delClient_t delClient;
 	
-	onCommand_t onCommand;	//fonction de traitément des données
+	onCommand_t onCommand;
 	onButtonPressed_t onButtonPressed;
 	onButtonReleased_t onButtonReleased;
 	onDongleConnected_t onDongleConnected;

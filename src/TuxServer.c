@@ -248,6 +248,13 @@ void* ReadClient(void *data) {
 		
 		close(client->sock);
 		TuxLogger_Debug( "Socket closed", client->id);
+	
+		int i;
+		for(i = 0; i < plugins->count; i++)
+		{
+			if(plugins->plugins[i]->delClient != NULL)
+				plugins->plugins[i]->delClient(client);
+		}
 	}
 
 	if (client->uKey != NULL) {
@@ -273,7 +280,7 @@ void* ReadClient(void *data) {
 	return 0;
 }
 
-LIBEXPORT void SendMsgToAll(char *msg, tux_client except_client)
+void SendMsgToAll(char *msg, tux_client except_client)
 {
 	if(!server_started)
 		return;
@@ -324,6 +331,14 @@ LIBEXPORT void SendMsgToAll(char *msg, tux_client except_client)
 						removeUniqueID(clients[i]->pID);
 					
 						close(clients[i]->sock);
+						
+						int j;
+						for(j = 0; j < plugins->count; j++)
+						{
+							if(plugins->plugins[j]->delClient != NULL)
+								plugins->plugins[j]->delClient(clients[i]);
+						}
+						
 						if(clients[i]->uKey != NULL)
 						{
 							/*free(clients[i]->uKey);
@@ -351,6 +366,14 @@ LIBEXPORT void SendMsgToAll(char *msg, tux_client except_client)
 				removeUniqueID(clients[i]->pID);
 				
 				close(clients[i]->sock);
+				
+				int j;
+				for(j = 0; j < plugins->count; j++)
+				{
+					if(plugins->plugins[j]->delClient != NULL)
+						plugins->plugins[j]->delClient(clients[i]);
+				}
+				
 				if(clients[i]->uKey != NULL)
 				{
 					/*free(clients[i]->uKey);
@@ -419,6 +442,13 @@ void SendMsgToClient(tux_client client, char *message) {
 			{
 				removeUniqueID(client->pID);
 				close(client->sock);
+			
+				int i;
+				for(i = 0; i < plugins->count; i++)
+				{
+					if(plugins->plugins[i]->delClient != NULL)
+						plugins->plugins[i]->delClient(client);
+				}
 			}
 		}
 	} else {
@@ -426,6 +456,13 @@ void SendMsgToClient(tux_client client, char *message) {
 				"(X)The connection with client %d wasn't active anymore, shut it down",
 				client->id);
 		close(client->sock);
+		
+		int i;
+		for(i = 0; i < plugins->count; i++)
+		{
+			if(plugins->plugins[i]->delClient != NULL)
+				plugins->plugins[i]->delClient(client);
+		}
 	}
 
 	if (data != NULL) {
@@ -726,6 +763,13 @@ LIBEXPORT void InitServer(void)
 				removeUniqueID(clients[i]->pID);
 				
 				close(clients[i]->sock);
+
+				int j;
+				for(j = 0; j < plugins->count; j++)
+				{
+					if(plugins->plugins[j]->delClient != NULL)
+						plugins->plugins[j]->delClient(clients[i]);
+				}
 
 
 				if (clients[i]->uKey != NULL) {

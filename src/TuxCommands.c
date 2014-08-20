@@ -727,9 +727,25 @@ void ParseCommand(tux_client client, char *rawcmd)
 			TuxSleep(200);
 			#endif
 			close(client->sock);
+		
+			int i;
+			for(i = 0; i< plugins->count; i++)
+			{
+				if(plugins->plugins[i]->delClient != NULL)
+					plugins->plugins[i]->delClient(client);
+			}
 		}
 
 		return;
+	}
+	else
+	{
+		int i;
+		for(i = 0; i < plugins->count; i++)
+		{
+			if(plugins->plugins[i]->addClient != NULL)
+				plugins->plugins[i]->addClient(client);
+		}
 	}
 
 	//key is after tux_key(xxxx)
@@ -764,6 +780,14 @@ void ParseCommand(tux_client client, char *rawcmd)
 			TuxSleep(200);
 			#endif
 			close(client->sock);
+			
+			int i;
+			for(i = 0; i < plugins->count; i++)
+			{
+				if(plugins->plugins[i]->delClient != NULL)
+					plugins->plugins[i]->delClient(client);
+			}
+			
 			return;
 		}
 	}
@@ -788,6 +812,13 @@ void ParseCommand(tux_client client, char *rawcmd)
 				TuxSleep(200);
 				#endif
 				close(client->sock);
+			
+				int i;
+				for(i = 0; i < plugins->count; i++)
+				{
+					if(plugins->plugins[i]->delClient != NULL)
+						plugins->plugins[i]->delClient(client);
+				}
 			}
 			
 			return;

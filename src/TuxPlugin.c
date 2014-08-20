@@ -196,6 +196,8 @@ Plugin loadPlugin(char *file)
 	plg->onDongleDisconnected = (onDongleDisconnected_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onDongleDisconnected");
 	plg->onChargerPlugged = (onChargerPlugged_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onChargerPlugged");
 	plg->onChargerUnPlugged = (onChargerUnPlugged_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onChargerUnPlugged");
+	plg->addClient = (addClient_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"addClient");
+	plg->delClient = (delClient_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"delClient");
 	
 	return plg;
 }

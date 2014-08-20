@@ -37,7 +37,7 @@
 /* Prototypes */
 extern int isServerStarted(void);
 void* ReadClient(void *data);
-extern void SendMsgToAll(char *msg, tux_client except_client);
+void SendMsgToAll(char *msg, tux_client except_client);
 void SendMsgToClient(tux_client client, char *message);
 void ParseCommand(tux_client client, char *cmd);
 void loadConfigFile(void);

@@ -2,6 +2,25 @@
 #include "plugin.h"
 #include "../../../include/TuxStrings.h"
 
+/* Network part */
+#ifdef _WIN32
+#include <winsock2.h>
+#pragma comment(lib, "ws2_32.lib")
+	#ifndef _WS2TCPIP_H
+	typedef size_t socklen_t;
+	#endif
+#else
+#include <unistd.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <arpa/inet.h>
+typedef unsigned short u_short;
+#endif
+/* -- //network -- */
+
+
 /* Fonction appellée lors de l'apuie sur un bouton */
 /* button contient le nom du bouton pressé */
 LIBEXPORT void onButtonPressed(char *button)
@@ -36,6 +55,18 @@ LIBEXPORT void onChargerPlugged(void)
 
 /* Fonction appellée lorsqu'on débranche le chargeur */
 LIBEXPORT void onChargerUnPlugged(void)
+{
+	//
+}
+
+/* Fonction appellée dès qu'un client est connecté ET identifié (via Tux_Key) à TuxDroidServer */
+LIBEXPORT void addClient(tux_client client)
+{
+	//
+}
+
+/* Fonction appellée dès d'un client est déconnecté pour une raison ou une autre */
+LIBEXPORT void delClient(tux_client client)
 {
 	//
 }
