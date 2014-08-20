@@ -133,6 +133,8 @@ typedef tux_client_t *tux_client;
 
 extern void addClient(tux_client client);
 extern void delClient(tux_client client);
+extern void setPriority(tux_client client);
+extern void removePriority(tux_client client);
 
 LIBEXPORT void setIsServerStarted(isServerStarted_t funct) { isServerStarted = funct; }
 LIBEXPORT void setTux_Open(Tux_Open_t funct) { Tux_Open = funct; }

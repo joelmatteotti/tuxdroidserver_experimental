@@ -71,6 +71,18 @@ LIBEXPORT void delClient(tux_client client)
 	//
 }
 
+/* Fonction appellée lorsqu'un client demande et obtiens la priorité */
+LIBEXPORT void setPriority(tux_client client)
+{
+	//	
+}
+
+/* Fonction appellée lorsqu'un client relache la priorité */
+LIBEXPORT void removePriority(tux_client client)
+{
+	//
+}
+
 /* Fonction appellée dès qu'une commande est reçus par le server */
 LIBEXPORT void onCommand(char *cmd, char **parameters)
 {

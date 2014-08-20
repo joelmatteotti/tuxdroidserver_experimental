@@ -100,6 +100,9 @@ typedef void (*onChargerUnPlugged_t)(void);
 typedef void (*addClient_t)(tux_client client);
 typedef void (*delClient_t)(tux_client client);
 
+typedef void (*setPriority_t)(tux_client client);
+typedef void (*removePriority_t)(tux_client client);
+
 typedef struct
 {
 	char *name;
@@ -131,6 +134,9 @@ typedef struct
 	
 	addClient_t addClient;
 	delClient_t delClient;
+	
+	setPriority_t setPriority;
+	removePriority_t removePriority;
 	
 	onCommand_t onCommand;
 	onButtonPressed_t onButtonPressed;

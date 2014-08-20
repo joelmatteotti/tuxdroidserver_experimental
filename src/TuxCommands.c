@@ -433,6 +433,13 @@ void Tux_Priority(tux_client client, char *action)
 				isLocked=1;
 				PriorityID = duplicate_string(client->pID);
 				SendMsgToAll(TDSM_PRIORITY_LOCKED,client);
+				
+				int i;
+				for(i = 0; i < plugins->count; i++)
+				{
+					if(plugins->plugins[i]->setPriority != NULL)
+						plugins->plugins[i]->setPriority(client);
+				}
 			}
 		}
 		else
@@ -453,6 +460,13 @@ void Tux_Priority(tux_client client, char *action)
 					isLocked=0;
 					PriorityID = duplicate_string("");
 					SendMsgToAll(TDSM_PRIORITY_UNLOCKED,client);
+					
+					int i;
+					for(i = 0; i < plugins->count; i++)
+					{
+						if(plugins->plugins[i]->removePriority != NULL)
+							plugins->plugins[i]->removePriority(client);
+					}
 				}
 				else
 				{

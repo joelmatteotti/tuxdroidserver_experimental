@@ -198,6 +198,8 @@ Plugin loadPlugin(char *file)
 	plg->onChargerUnPlugged = (onChargerUnPlugged_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"onChargerUnPlugged");
 	plg->addClient = (addClient_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"addClient");
 	plg->delClient = (delClient_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"delClient");
+	plg->setPriority = (setPriority_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"setPriority");
+	plg->removePriority = (removePriority_t)(uintptr_t)IMPORT_FUNC(DLLHANDLE,"removePriority");
 	
 	return plg;
 }
