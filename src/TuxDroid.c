@@ -225,12 +225,31 @@ void onChargerUnPlugged(void)
 
 void onDongleConnected(void)
 {
+	TuxLogger_Debug("[PLUGIN] TuxDroid.c -> Nombre de plugin (plugins->count) = %d",plugins->count);
 	
 	int i;
 	for(i = 0; i < plugins->count; i++)
 	{
-		if(plugins->plugins[i]->onDongleConnected != NULL)
-			plugins->plugins[i]->onDongleConnected();
+		TuxLogger_Debug("[PLUGIN] TuxDroid.c -> onDongleConnected");
+	
+		if(plugins->plugins[i] != NULL)
+		{
+			TuxLogger_Debug("[PLUGIN] TuxDroid.c -> le plugin n'est pas null !");
+			
+			if(plugins->plugins[i]->name == NULL)
+			{
+				TuxLogger_Debug("[PLUGIN] TuxDroid.c -> Le nom du plugin est NULL :/");
+			}
+			
+			TuxLogger_Debug("[PLUGIN] TuxDroid.c -> nom du plugin => %s",plugins->plugins[i]->name);
+			
+			if(plugins->plugins[i]->onDongleConnected != NULL)
+			{
+				TuxLogger_Debug("[PLUGIN] TuxDroid.c -> La fonction onDongleConnected() du plugin n'est pas NULL on l'appelle !");
+				plugins->plugins[i]->onDongleConnected();
+				TuxLogger_Debug("[PLUGIN] TuxDroid.c -> La fonction a correctement été appellée !");
+			}
+		}
 	}
 	
 	SendMsgToAll(TDSM_DONGLE_CONNECTED,NULL);

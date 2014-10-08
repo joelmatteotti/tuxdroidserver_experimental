@@ -105,6 +105,8 @@ typedef void (*removePriority_t)(tux_client client);
 
 typedef struct
 {
+	int loaded; //load state
+	
 	char *name;
 	char *author;
 	char *version;

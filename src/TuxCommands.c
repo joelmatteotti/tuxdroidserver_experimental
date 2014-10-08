@@ -293,8 +293,6 @@ LIBEXPORT void Tux_Micro(char *action, char *file)
 
 LIBEXPORT void Tux_Flippers(char *action, char *count)
 {
-	printf("Tux_Flippers() => %s\n",action);
-	
 	if(!strcmp(strtolower(action),"up"))
 		Tux_Flippers_Up();
 	if(!strcmp(strtolower(action),"down"))

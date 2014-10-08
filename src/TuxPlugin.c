@@ -79,12 +79,16 @@ void TuxPluin_processNode(xmlTextReaderPtr reader)
 		{
 			win32_file = (char *)malloc(sizeof(char)*strlen((char *)value));
 			sprintf(win32_file,"%s",(char *)value);
+		
+			TuxLogger_Debug("win32_file found => %s",win32_file);
 		}
 		
 		if (!strcmp(current_element, "linux_file") && linux_file == NULL) 
 		{
 			linux_file = (char *)malloc(sizeof(char)*strlen((char *)value));
 			sprintf(linux_file,"%s",(char *)value);
+			
+			TuxLogger_Debug("Linux_file found => %s",linux_file);
 		}
 
 		if (!strcmp(current_element, "name") && plugin_name == NULL) 
@@ -121,13 +125,16 @@ void TuxPluin_processNode(xmlTextReaderPtr reader)
 
 		name = NULL;
 	}
+	
+	name = NULL;
+	value = NULL;
 }
 
 bool TuxPluin_ParseXMLFile(const char *xmlfile) 
 {
 	bool result = true;
 
-	xmlTextReaderPtr reader;
+	xmlTextReaderPtr reader = NULL;
 	int ret;
 
 	reader = xmlReaderForFile(xmlfile, NULL, 0);
@@ -265,6 +272,8 @@ void loadAllPlugin()
 					
 							if(!strcmp(getExtension(ep2->d_name),".xml"))
 							{
+								TuxLogger_Debug("Reading XML %s",file);
+								
 								if(TuxPluin_ParseXMLFile(file))
 								{
 									#ifdef _WIN32
@@ -277,11 +286,24 @@ void loadAllPlugin()
 									
 									if(file_exists(file))
 									{
-										plugins->plugins = (Plugin *)realloc(plugins->plugins, sizeof(Plugin_t)*plugins->count+1);
+										TuxLogger_Debug("File %s exist !",file);
+										
+										plugins->plugins = (Plugin *)realloc(plugins->plugins, sizeof(Plugin_t)*plugins->count+4); // +4 seems the good value for this re-alloc; Don't know why (???) (bug ??)
+									
+									
 										plugins->plugins[plugins->count] = loadPlugin(file);
+									
+										if(plugins->plugins[plugins->count] != NULL)
+											TuxLogger_Debug("Plugin loaded, now set the informations !");
+										else
+											TuxLogger_Debug("Error while loading plugin !");
+											
 										plugins->plugins[plugins->count]->name = plugin_name;
 										plugins->plugins[plugins->count]->author = plugin_author;
 										plugins->plugins[plugins->count]->version = plugin_version;
+										
+										TuxLogger_Debug("Informations Ok ! Now set the functions !");
+										
 										plugins->plugins[plugins->count]->setIsServerStarted(isServerStarted);
 										plugins->plugins[plugins->count]->setTux_Open(Tux_Open);
 										plugins->plugins[plugins->count]->setTux_Close(Tux_Close);
@@ -302,6 +324,14 @@ void loadAllPlugin()
 										plugins->plugins[plugins->count]->setTux_State(pTux_State);
 										plugins->plugins[plugins->count]->setCallback(PluginsCallback);
 										
+										TuxLogger_Debug("Ok all informations are set !");
+										
+										plugin_name = NULL;
+										plugin_author = NULL;
+										plugin_version = NULL;
+										
+										TuxLogger_Debug("All to NULL ok !");
+										
 										if(plugins->plugins[plugins->count]->Initialize != NULL)
 											plugins->plugins[plugins->count]->Initialize();
 										else
@@ -312,7 +342,7 @@ void loadAllPlugin()
 									else
 									{
 										plugins->error++;
-										TuxLogger_Error("Unable to load plugin \"%s\"",plugin_name);
+										TuxLogger_Error("Unable to load plugin \"%s\" because file \"%s\" not found",plugin_name,file);
 									}
 								
 									free(plugin_name);
@@ -320,8 +350,26 @@ void loadAllPlugin()
 									free(plugin_version);
 									
 								}
+								
+								free(file);
 							}
-						}			
+						}
+						
+						fclose(fp);	
+						
+						fp = NULL;
+						
+						free(win32_file);
+						free(linux_file);
+						free(plugin_name);
+						free(plugin_version);
+						free(plugin_author);
+						
+						win32_file = NULL;
+						linux_file = NULL;
+						plugin_name = NULL;
+						plugin_version = NULL;
+								
 				
 					}
 				}

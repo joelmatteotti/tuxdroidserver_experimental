@@ -28,6 +28,7 @@
 #include <TuxUtils.h>
 #include <TuxTypes.h>
 #include <TuxDownloader.h>
+#include <ctype.h>
 
 #ifndef _WIN32
 	#include <sys/stat.h>
@@ -48,6 +49,46 @@ void TuxConfig_checkConfigDir()
 		#endif
 	}
 }
+
+/*
+void TuxConfig_writeConfig()
+{
+	//
+	printf("\a");
+	printf("\nIt's the first time you start TuxDroidServer need some informations !\n\n");
+	printf("What port your want TuxDroidServer Listen (Default: 9595) ? ");
+	char port[1024];
+	scanf("%s",port);
+	printf("Now set a default secret key for connect to it: ");
+	char key[1024];
+	scanf("%s",key);
+	printf("What's your language ? (FR,EN,...) ? ");
+	char lng[1024];
+	scanf("%s",lng);
+	printf("Do you want the server automatically start ? (Y/N) ");
+	char auto_start[1024];
+	scanf("%s",auto_start);
+	
+	printf("\n\n");
+	printf("Your informations:\n");
+	printf("Listenning on port: %s\n",port);
+	printf("Your secret key: %s\n",key);
+	printf("Your language is: %s\n",lng);
+	printf("Auto-start: %s\n",auto_start);
+	
+	printf("\nIs that correct ? (Y/N) ");
+	char ok[1024];
+	
+	scanf("%s",ok);
+	
+	if(!strcmp(strtolower(ok),"y"))
+	{
+		//write file
+	}
+	else
+		TuxConfig_writeConfig(); //Re-try
+}
+*/
 
 void TuxConfig_writeConfig()
 {
@@ -139,7 +180,29 @@ void TuxConfig_loadConfig()
 					if(!strcmp(param[0],"LOG_LEVEL"))
 					{
 						TuxLogger_Debug("LOG LEVEL SET TO %s",param[1]);
-						config->LOG_LEVEL=atoi(trim(param[1]));
+						
+						if(isdigit(atoi(param[1])))
+							config->LOG_LEVEL=atoi(trim(param[1]));
+							
+						else
+						{
+							if(!strcmp(strtoupper(param[1]),"INFOS"))
+								config->LOG_LEVEL = 0;
+							if(!strcmp(strtoupper(param[1]),"WARNING"))
+								config->LOG_LEVEL = 1;
+							if(!strcmp(strtoupper(param[1]),"ERROR"))
+								config->LOG_LEVEL = 2;
+							if(!strcmp(strtoupper(param[1]),"DEBUG"))
+								config->LOG_LEVEL = 3;	
+						}
+					
+					/*	
+							TUX_LOG_INFO=0,
+	TUX_LOG_WARN=1,
+	TUX_LOG_ERROR=2,
+	TUX_LOG_DEBUG=3,*/
+						
+						
 						TuxLogger_setLevel(config->LOG_LEVEL);
 					}
 

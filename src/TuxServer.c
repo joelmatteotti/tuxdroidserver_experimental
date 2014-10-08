@@ -640,7 +640,7 @@ LIBEXPORT void InitServer(void)
 	}
 	
 	char ch = '\0';
-	char buffer[5];
+	char buffer[15];
 	int char_count;
 
 	tprintf("*********************************************************\n");
@@ -695,7 +695,7 @@ LIBEXPORT void InitServer(void)
 		tprintf("TuxDroidServer> ");
 		ch = getchar();
 		char_count = 0;
-		while ((ch != '\n') && (char_count < 5)) {
+		while ((ch != '\n') && (char_count < 15)) {
 			buffer[char_count++] = ch;
 			ch = getchar();
 		}
@@ -711,6 +711,19 @@ LIBEXPORT void InitServer(void)
 
 			basicStart();
 
+		}
+		
+		if(!strcmp(buffer,"pluginslist"))
+		{
+			printf("\n");
+			int i;
+			char *plg_infos;
+			for(i = 0; i < plugins->count; i++)
+			{
+				if(plugins->plugins[i] != NULL)
+					printf("%s [v%s] by %s\n",plugins->plugins[i]->name,plugins->plugins[i]->version,plugins->plugins[i]->author);
+			}
+			printf("\n");
 		}
 
 		if (!strcmp(buffer, "stop")) {
